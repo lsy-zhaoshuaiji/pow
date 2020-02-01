@@ -56,3 +56,8 @@ func (this *Cli)Send(from ,to string,amount float64,miner,data string){
 	this.Bc.AddBlock([]*Transaction{CoinBaseTranscation,tx})
 
 }
+func (this *Cli)NewWallet(){
+	wallet:=NewWallet()
+	fmt.Printf("%v\n",wallet.PrivateKey)
+	fmt.Printf("%v\n",wallet.PublicKey)
+}

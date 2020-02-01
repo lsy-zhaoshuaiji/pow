@@ -60,7 +60,7 @@ func NewCoinBaseTX(address string,data string) *Transaction{
 	return &tx
 }
 func NewTranscations(from, to string,amount float64,bc *BlockChain )*Transaction{
-	utxos,resValue:=bc.FindNeedUtxos(from,amount)
+	utxos,resValue:=bc.FindNeedUTXOs(from,amount)
 	if resValue<amount{
 		fmt.Println("余额不足，请检查钱包额余")
 		return nil
