@@ -15,8 +15,9 @@ func NewProofOfWork(block *Block)*ProofOfWork{
 	pow:=ProofOfWork{
 		block:block,
 	}
-	//挖矿难度值
+	//挖矿难度值,
 	diffculty:="0000100000000000000000000000000000000000000000000000000000000000"
+	//str转big.int
 	tmp:=big.Int{}
 	tmp.SetString(diffculty,16)
 	pow.target=&tmp
@@ -35,7 +36,8 @@ func (this *ProofOfWork)run()([]byte,uint64){
 			IntToByte(this.block.TimeStamp),
 			IntToByte(this.block.Difficulty),
 			IntToByte(nonce),
-			this.block.Data,
+			//只对区块头做哈希拼接，通过merkleRoot影响区块体
+			//this.block.Data,
 		}
 		blockinfo:=bytes.Join(byteList,[]byte{})
 		//2.将拼接后的数据进行哈希256运算

@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"crypto/sha256"
 	"encoding/binary"
 	"encoding/gob"
 	"fmt"
@@ -27,10 +28,12 @@ type Block struct {
 	//a. 当前区块哈希,正常比特币区块中没有当前区块的哈希，我们为了是方便做了简化！
 	Hash []byte
 	//b. 数据
-	Data []byte
+	//Data []byte
+	//真实的交易数据
+	Transactions []*Transaction
 }
 //2.创建区块
-func NewBlock(data string, prevBlockHash []byte) *Block {
+func NewBlock(txs []*Transaction, prevBlockHash []byte) *Block {
 	block := Block{
 		Version:    00,
 		PrevHash:   prevBlockHash,
@@ -39,9 +42,9 @@ func NewBlock(data string, prevBlockHash []byte) *Block {
 		Difficulty: 0, //随便填写的无效值
 		Nonce:      0, //同上
 		Hash:       []byte{},
-		Data:       []byte(data),
+		Transactions: txs,
 	}
-
+	block.MerkelRoot=block.MakeMakerkleRoot()
 	//block.SetHash()
 	//创建一个pow对象
 	pow := NewProofOfWork(&block)
@@ -96,4 +99,14 @@ func Deserialize(data []byte) Block {
 		log.Panic("解码出错!")
 	}
 	return block
+}
+//模拟merkleROOT，只是对交易数据做拼接，不做二叉树
+func (this *Block)MakeMakerkleRoot()[]byte{
+	//我们进行哈希拼接
+	final:=[]byte{}
+	for _,j :=range this.Transactions{
+		final=append(final, j.TXID...)
+	}
+	hash:=sha256.Sum256(final)
+	return hash[:]
 }
