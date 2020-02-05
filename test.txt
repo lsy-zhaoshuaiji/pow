@@ -1,2 +1,2 @@
 pow.exe send -from 007 -to 008 -amount 2.5 -miner c -data d
-pow.exe getbalance --address 007
+pow.exe getbalance --address 007XXX

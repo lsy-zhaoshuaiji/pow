@@ -12,7 +12,8 @@ package main
 */
 
 func main(){
-	bc:=NewBlockChain("张三")
+	bc:=NewBlockChain("1JcTGgBcCnAg8uDyAHEp33JAGjmF47sn7x")
 	cli:=Cli{bc}
 	cli.Run()
 }
+//pow.exe send -from 1JcTGgBcCnAg8uDyAHEp33JAGjmF47sn7x -to 1LhQGb21d4K2PjPBntnw2znwuKuzaidoDD -amount 10 -miner 1FhcebX13RR5rXM8Z1cxZx1VtsQuB5KuBa -data "..."

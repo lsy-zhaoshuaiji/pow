@@ -8,13 +8,17 @@ import (
 )
 
 const Usage  = `
+	newWallet				"新增钱包"
 	print                   "遍历区块链           	        example:pow.exe print"
 	getbalance --address    "打印当前账户余额 	        example:pow.exe getbalance --address "0x10086""
 	send -from {string} -to {string} -amount {float64} -miner {string} --data {string}    "转账"
+	printaddress    "打印钱包地址"
 `
 const PrintBlockString  = "print"
 const GetBlanceString  = "getbalance"
 const SendString  = "send"
+const WalletString  = "newWallet"
+const PrintAddress  = "printaddress"
 type Cli struct {
 	Bc *BlockChain
 }
@@ -32,6 +36,8 @@ func (this *Cli)Run(){
 	this.CheckInputLenth()
 	PrintBlockChainer:=flag.NewFlagSet(PrintBlockString,flag.ExitOnError)
 	getBalancer:=flag.NewFlagSet(GetBlanceString,flag.ExitOnError)
+	addresser:=flag.NewFlagSet(PrintAddress,flag.ExitOnError)
+	newWalleter:=flag.NewFlagSet(WalletString,flag.ExitOnError)
 	sender:=flag.NewFlagSet(SendString,flag.ExitOnError)
 	getBalancerParam:=getBalancer.String("address","","打印余额")
 	from:=sender.String("from","","发送人的地址")
@@ -74,6 +80,18 @@ func (this *Cli)Run(){
 		if err!=nil{fmt.Println(err)}
 		if PrintBlockChainer.Parsed(){
 			this.PrintBlockChain()
+		}
+	case WalletString:
+		err:=newWalleter.Parse(os.Args[2:])
+		if err!=nil{fmt.Println(err)}
+		if newWalleter.Parsed(){
+			this.NewWallet()
+		}
+	case PrintAddress:
+		err:=addresser.Parse(os.Args[2:])
+		if err!=nil{fmt.Println(err)}
+		if addresser.Parsed(){
+			this.PrintAddressList()
 		}
 	default:
 		fmt.Println("Invalid input ")
